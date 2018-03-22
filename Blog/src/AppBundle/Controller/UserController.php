@@ -16,7 +16,7 @@ class UserController extends Controller
 {
 
 	/**
-	* @Route("/user/register")
+	* @Route("/inscription", name="user_register")
 	*/
 	public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
 	{
@@ -33,8 +33,8 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Welcome !');
-            return $this->redirectToRoute('user_profil');
+            $this->addFlash('success', 'Bonjour vous etes bien inscrit ! Connectez-vous !');
+            return $this->redirectToRoute('security_login');
         }
        	return $this->render('user/register.html.twig', [
             'form' => $form->createView()
@@ -42,7 +42,7 @@ class UserController extends Controller
 	}
 
 	/**
-	* @Route("/user/profil", name="user_profil")
+	* @Route("/profil", name="user_profil")
 	*/
 	public function showAction(){
 		return $this->render('user/show.html.twig');

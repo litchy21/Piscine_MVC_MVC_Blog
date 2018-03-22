@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{%block body%}
+<div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>Ecrire un nouveau Billet</h1>
+                <!-- <form class="form-horizontal">
+					<fieldset>
+						<div class="form-group">
+						  <label class="col-md-10 control-label" for="title">Titre</label>  
+						  <div class="col-md-10">
+						  <input id="title" name="title" type="text" placeholder="Entrez le titre ..." class="form-control input-md" required=""> 
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label class="col-md-10 control-label" for="content">Contenu</label>
+						  <div class="col-md-10">                     
+						    <textarea class="form-control" id="content" name="content"></textarea>
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label class="col-md-10 control-label" for="tags">Tags</label>  
+						  <div class="col-md-10">
+						  <input id="tags" name="tags" type="text" placeholder="Entrez vos tags ..." class="form-control input-md">  
+						  </div>
+						</div>
+						<div class="form-group">
+						  <label class="col-md-10 control-label" for=""></label>
+						  <div class="col-md-10">
+						    <button id="" name="" class="btn btn-primary">Poster le billet</button>
+						  </div>
+						</div>
+					</fieldset>
+				</form> -->
+				{{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-primary">Poster le billet</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{%endblock%}

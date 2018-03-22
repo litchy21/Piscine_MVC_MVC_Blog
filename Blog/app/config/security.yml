@@ -7,6 +7,8 @@ security:
         
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
+        our_users:
+            entity: { class: AppBundle\Entity\User, property: username }
         in_memory:
             memory: ~
 
@@ -18,6 +20,18 @@ security:
 
         main:
             anonymous: ~
+            http_basic: ~
+            form_login:
+                # ...
+                default_target_path: user_profil
+                always_use_default_target_path: true
+                login_path: security_login
+                check_path: security_login
+            logout:
+                invalidate_session: true
+                path: /logout
+                target: /connexion
+            # activate different ways to authenticate
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate

@@ -10,6 +10,17 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        <header class="header">
+            <h1 class="logo">My Blog</h1>
+            <ul class="navi">
+                {% if is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('security_logout') }}">Logout</a></li>
+                {% else %}
+                    <li><a href="{{ path('security_login') }}">Login</a></li>
+                    <li><a href="{{ path('user_register') }}">Inscription</a></li>
+                {% endif %}
+            </ul>
+        </header>
         <div class="main-content">
             {% for msg in app.session.flashBag.get('success') %}
                 <div class="alert alert-success">

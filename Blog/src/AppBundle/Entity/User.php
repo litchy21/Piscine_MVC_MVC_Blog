@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * @ORM\Entity
@@ -60,7 +60,9 @@ class User implements UserInterface
 	*/
 	private $password;
 
-
+	public function getId(){
+		return $this->id;
+	}
 	public function getUsername()
 	{
 		return $this->username;
@@ -116,7 +118,24 @@ class User implements UserInterface
 		$this->email = $email;
 	}
 
-	public function getRoles(){}
-	public function getSalt(){}
-	public function eraseCredentials(){}
+	public function getRoles()
+	{
+		return ['ROLE_USER'];
+	}
+	public function getSalt()
+	{
+	}
+	public function eraseCredentials()
+	{
+		$this->password = null;
+	}
+	public function serialize()
+    {
+        return serialize([$this->id, $this->username, $this->password]);
+    }
+
+    public function unserialize($serialized)
+    {
+        [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
 }

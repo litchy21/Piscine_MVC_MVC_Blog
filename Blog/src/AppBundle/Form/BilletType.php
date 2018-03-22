@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class UserType extends AbstractType
+class BilletType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -16,19 +16,16 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('username')
-        ->add('name')
-        ->add('lastname')
-        ->add('birthdate')
-        ->add('email')
-        ->add('password', PasswordType::class);
+        ->add('title')
+        ->add('content')
+        ->add('tags');
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\Billet'
         ));
     }
 
@@ -37,7 +34,7 @@ class UserType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_user';
+        return 'appbundle_billet';
     }
 
 
