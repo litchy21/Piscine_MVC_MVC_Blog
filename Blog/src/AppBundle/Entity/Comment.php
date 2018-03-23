@@ -8,11 +8,11 @@ use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="billet")
+ * @ORM\Table(name="comment")
  * @ORM\HasLifecycleCallbacks
 */
 
-class Billet
+class Comment
 {
 	/**
 	 * @ORM\Id
@@ -28,25 +28,11 @@ class Billet
 	private $created;
 
 	/**
-	 * @var datetime $updated
- 	 * @ORM\Column(type="datetime", nullable = true)
-	*/
-	private $updated;
-
-	/**
      * @ORM\PrePersist
      */
     public function onPrePersist()
     {
         $this->created = new \DateTime("now");
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function onPreUpdate()
-    {
-        $this->updated = new \DateTime("now");
     }
 
 	/**
@@ -57,17 +43,12 @@ class Billet
 	/**
 	 * @ORM\Column(type="string")
 	*/
-	private $title;
+	private $comment;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="integer")
 	*/
-	private $content;
-
-	/**
-	 * @ORM\Column(type="string")
-	*/
-	private $tags;
+	private $billet_id;
 
 	public function getId(){
 		return $this->id;
@@ -82,13 +63,13 @@ class Billet
 		$this->created = $created;
 	}
 
-	public function getUpdated()
+	public function getBillet_id()
 	{
-		return $this->updated;
+		return $this->billet_id;
 	}
-	public function setUpdated($updated)
+	public function setBillet_id($billet_id)
 	{
-		$this->updated = $updated;
+		$this->billet_id = $billet_id;
 	}
 
 	public function getUser_id()
@@ -100,31 +81,13 @@ class Billet
 		$this->user_id = $user_id;
 	}
 
-	public function getTitle()
+	public function getComment()
 	{
-		return $this->title;
-	}
-	public function setTitle($title)
-	{
-		$this->title = $title;
+		return $this->comment;
 	}
 
-	public function getContent()
+	public function setComment($comment)
 	{
-		return $this->content;
-	}
-
-	public function setContent($content)
-	{
-		$this->content = $content;
-	}
-
-	public function getTags()
-	{
-		return $this->tags;
-	}
-	public function setTags($tags)
-	{
-		$this->tags = $tags;
+		$this->comment = $comment;
 	}
 }

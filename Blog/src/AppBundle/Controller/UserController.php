@@ -14,7 +14,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends Controller
 {
-
 	/**
 	* @Route("/inscription", name="user_register")
 	*/

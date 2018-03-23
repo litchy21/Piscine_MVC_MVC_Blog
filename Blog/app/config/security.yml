@@ -1,36 +1,49 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
-
     encoders:
         AppBundle\Entity\User: bcrypt
-        
+        Symfony\Component\Security\Core\User\User: plaintext
+  
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         our_users:
             entity: { class: AppBundle\Entity\User, property: username }
         in_memory:
-            memory: ~
+            memory:
+                users:
+                    ryan:
+                        password: ZKAYGxXLSbRdYSXkyies4kiEA42hjoOuh30VmjpB
+                        roles: 'ROLE_USER'
+                    admin:
+                        password: 2PvK+oZk7gn16tRErJLdyc5yqi1yr89rKFDNBIb3
+                        roles: 'ROLE_ADMIN'
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+            dev:
+                pattern: ^/(_(profiler|wdt)|css|images|js)/
+                security: false
 
-        main:
-            anonymous: ~
-            http_basic: ~
-            form_login:
-                # ...
-                default_target_path: user_profil
-                always_use_default_target_path: true
-                login_path: security_login
-                check_path: security_login
-            logout:
-                invalidate_session: true
-                path: /logout
-                target: /connexion
+            main:
+                anonymous: ~
+                http_basic: ~
+                form_login:
+                    # ...
+                    default_target_path: user_profil
+                    always_use_default_target_path: true
+                    login_path: security_login
+                    check_path: security_login
+                logout:
+                    invalidate_session: true
+                    path: /logout
+                    target: /connexion
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+        
+
             # activate different ways to authenticate
             # activate different ways to authenticate
 
@@ -39,3 +52,4 @@ security:
 
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
+    

@@ -8,7 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Billet;
+use AppBundle\Form\BilletType;
 
 class BilletController extends Controller
 {
@@ -16,36 +17,113 @@ class BilletController extends Controller
 	* @Route("billet/new", name="billet_new")
 	*/
 	public function newAction(Request $request)
-	{
-       	// $billet = new Billet();
-        
+	{        
         $form = $this->createForm('AppBundle\Form\BilletType');
         $form->handleRequest($request);
 
         $billet = $form->getData();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user_id = $user->getId();
 
         if ($form->isSubmitted() && $form->isValid()) {
-        	$current_date = 'aujourd\'hui';
-            $billet->setCreated($current_date);
-            $billet->setUpdated($current_date);
-            $user = new User();
-            var_dump($user->getId());
-            
-            //$billet->setUser_id($this->getUser());
+            $billet->setUser_id($user_id);
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($billet);
+            $em->persist($billet);  
             $em->flush();
 
             $this->addFlash('success', 'Billet bien créé !');
 
-            // return $this->redirectToRoute('/billet/new');
+            return $this->redirectToRoute('billet_show');
         }
         return $this->render('billet/new.html.twig', [
-            // 'billet' => $billet,
             'form' => $form->createView(),
         ]);
 	}
+
+	/**
+	* @Route("/billet", name="billet_show")
+	*/
+	public function showAction(Request $request)
+	{
+		$listeBillets = $this->getDoctrine()
+        ->getRepository(Billet::class)
+        ->findAll();
+
+        $billets = $this->get('knp_paginator')->paginate(
+        $listeBillets,
+        $request->query->get('page', 1), 3);
+
+        return $this->render('billet/show.html.twig', [
+            'billets' => $billets,
+        ]);
+	}
+
+	/**
+	* @Route("/billet/{id}/edit", name="billet_edit")
+	*/
+	public function editAction(Request $request, Billet $billet, $id)
+	{
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			if (parse_url($_SERVER['HTTP_REFERER'])['path'] != '/billet') {
+				$this->addFlash('error', 'Vous ne pouvez pas modifier ce billet !');
+				return $this->redirectToRoute('billet_show');
+			}
+		}
+		$billet = $this->getDoctrine()
+        ->getRepository(Billet::class)
+        ->find($id);
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        
+        if ($billet->getUser_id() != $user->getId()) {
+			return $this->redirectToRoute('billet_show');
+        }
+
+
+		$form = $this->createForm(BilletType::class, $billet);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('success', 'Billet modifié !');
+
+            return $this->redirectToRoute('billet_show');
+        }
+        return $this->render('billet/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+	}
+
+	/**
+    * @Route("/billet/{id}/delete", name="billet_delete")
+    */
+    public function deleteAction(Billet $billet, $id) {
+    	if (isset($_SERVER['HTTP_REFERER'])) {
+			if (parse_url($_SERVER['HTTP_REFERER'])['path'] != '/billet') {
+				return $this->redirectToRoute('billet_show');
+			}
+		}
+		$billet = $this->getDoctrine()
+        ->getRepository(Billet::class)
+        ->find($id);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        if ($billet->getUser_id() != $user->getId()) {
+        	$this->addFlash('error', 'Vous ne pouvez pas modifier ce billet !');
+			return $this->redirectToRoute('billet_show');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($billet);
+        $em->flush();
+
+		$this->addFlash('success', 'Billet supprimé !');
+
+        return $this->redirectToRoute('/billet');
+    }
 }
 
 

@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Role\Role;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -22,6 +23,11 @@ class User implements UserInterface
 	 * @ORM\Column(type="integer")
 	*/
 	private $id;
+
+	public function __construct()
+    {
+        $this->billets = new ArrayCollection();
+    }
 
 	/**
 	 * @ORM\Column(type="string")
@@ -62,6 +68,9 @@ class User implements UserInterface
 
 	public function getId(){
 		return $this->id;
+	}
+	public function setId($id){
+		$this->id = $id;
 	}
 	public function getUsername()
 	{

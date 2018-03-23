@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{%block body%}
+<div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Tous les billets</h1>
+                    {% for billet in billets %}
+                     <ul>
+                        <li><h4>{{ billet.title }}</h4></li>
+                        <li>Écrit par {{ billet.user_id }}</li>
+                        <li>Créé le {{ billet.created | date }}</li>
+                        <li>{{ billet.content }}</li>
+                        <li>Tags : {{ billet.tags }}</li>
+                        {% if billet.user_id == app.user.id %}
+                            <li><a href="{{ path('billet_edit', {'id': billet.id}) }}">Modifier</a></li>
+                            <li><a href="{{ path('billet_delete', {'id': billet.id}) }}">Supprimer</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('comment_show', {'id': billet.id}) }}">Commenter</a></li>
+                    </ul>
+                    {% endfor %}
+                    <div class="text-center">{{ knp_pagination_render(billets) }}</div>
+            </div>
+        </div>
+    </div>
+{%endblock%}

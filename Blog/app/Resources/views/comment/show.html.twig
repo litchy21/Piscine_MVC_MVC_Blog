@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{%block body%}
+<div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>{{ billet.title }}</h1>
+                     <ul>
+                        <li>Écrit par {{ billet.user_id }}</li>
+                        <li>Créé le {{ billet.created | date }}</li>
+                        <li>{{ billet.content }}</li>
+                        <li>Tags : {{ billet.tags }}</li>
+                        {% if billet.user_id == app.user.id %}
+                            <li><a href="{{ path('billet_edit', {'id': billet.id}) }}">Modifier</a></li>
+                            <li><a href="{{ path('billet_delete', {'id': billet.id}) }}">Supprimer</a></li>
+                        {% endif %}
+                    </ul>
+                    {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <button type="submit" class="btn btn-primary">Commenter</button>
+                    {{ form_end(form) }}
+                    {% for comment in comments %}
+                     <ul>
+                        <li>Écrit par {{ comment.user_id }}</li>
+                        <li>Créé le {{ comment.created | date }}</li>
+                        <li>{{ comment.comment }}</li>
+                    </ul>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+{%endblock%}
