@@ -7,7 +7,7 @@
                      <ul class="billets">
                         <li>Écrit par {{ billet.user_id }}</li>
                         <li>Créé le {{ billet.created | date }}</li>
-                        <li>{{ billet.content }}</li>
+                        <li>{{ froala_display( billet.content ) }}</li>
                         <li>Tags : {{ billet.tags }}</li>
                         {% if billet.user_id == app.user.id %}
                             <li><a href="{{ path('billet_edit', {'id': billet.id}) }}">Modifier</a></li>

@@ -49,7 +49,7 @@ class BilletController extends Controller
 	{
 		$listeBillets = $this->getDoctrine()
         ->getRepository(Billet::class)
-        ->findAll();
+        ->findBy(array(), array('id' => 'DESC'));
 
         $comments = $this->getDoctrine()
         ->getRepository(Comment::class)

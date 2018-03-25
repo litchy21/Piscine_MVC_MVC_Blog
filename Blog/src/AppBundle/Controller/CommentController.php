@@ -43,7 +43,7 @@ class CommentController extends Controller
 
         $comments = $this->getDoctrine()
         ->getRepository(Comment::class)
-        ->findBy(array('billet_id' => $id));
+        ->findBy(array('billet_id' => $id), array('id' => 'DESC'));
 
         return $this->render('comment/show.html.twig', [
             'billet' => $billet,
