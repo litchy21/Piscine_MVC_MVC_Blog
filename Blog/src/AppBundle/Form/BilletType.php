@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 
 class BilletType extends AbstractType
 {
@@ -17,7 +18,7 @@ class BilletType extends AbstractType
     {
         $builder
         ->add('title')
-        ->add('content')
+        ->add( 'content', FroalaEditorType::class )
         ->add('tags');
     }/**
      * {@inheritdoc}

@@ -11,20 +11,22 @@
     </head>
     <body>
         <header class="header">
-            <h1 class="logo">My Blog</h1>
-            <ul class="navi">
-                {% if is_granted('ROLE_USER') %}
-                    <li><a href="{{ path('user_profil') }}">Mon profil</a></li>
-                    <li><a href="{{ path('billet_show') }}">Tous les billets</a></li>
-                    <li><a href="{{ path('billet_new') }}">Ajouter un billet</a></li>
-                    <li><a href="{{ path('security_logout') }}">Logout</a></li>
-                {% else %}
-                    <li><a href="{{ path('security_login') }}">Login</a></li>
-                    <li><a href="{{ path('user_register') }}">Inscription</a></li>
-                {% endif %}
-            </ul>
+            <nav class="navbar navbar-dark bg-dark" id="main_navbar">
+                <h1 class="logo navbar-brand">My Blog</h1>
+                    <ul class="navbar-nav">
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item active"><a class="nav-link" href="{{ path('user_profil') }}">Mon profil</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="{{ path('billet_show') }}">Tous les billets</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="{{ path('billet_new') }}">Ajouter un billet</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="{{ path('security_logout') }}">Logout</a></li>
+                    {% else %}
+                        <li class="nav-item active"><a class="nav-link" href="{{ path('security_login') }}">Login</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="{{ path('user_register') }}">Inscription</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
         </header>
-        <div class="main-content">
+        <div id="main-content">
             {% for msg in app.session.flashBag.get('success') %}
                 <div class="alert alert-success">
                     {{ msg }}

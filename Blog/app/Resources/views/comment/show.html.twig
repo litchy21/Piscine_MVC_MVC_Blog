@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h1>{{ billet.title }}</h1>
-                     <ul>
+                     <ul class="billets">
                         <li>Écrit par {{ billet.user_id }}</li>
                         <li>Créé le {{ billet.created | date }}</li>
                         <li>{{ billet.content }}</li>
@@ -19,7 +19,7 @@
                         <button type="submit" class="btn btn-primary">Commenter</button>
                     {{ form_end(form) }}
                     {% for comment in comments %}
-                     <ul>
+                     <ul class="billets">
                         <li>Écrit par {{ comment.user_id }}</li>
                         <li>Créé le {{ comment.created | date }}</li>
                         <li>{{ comment.comment }}</li>

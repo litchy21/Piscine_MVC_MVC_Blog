@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Billet;
+use AppBundle\Entity\Comment;
 use AppBundle\Form\BilletType;
 
 class BilletController extends Controller
@@ -17,7 +18,7 @@ class BilletController extends Controller
 	* @Route("billet/new", name="billet_new")
 	*/
 	public function newAction(Request $request)
-	{        
+	{         
         $form = $this->createForm('AppBundle\Form\BilletType');
         $form->handleRequest($request);
 
@@ -50,12 +51,19 @@ class BilletController extends Controller
         ->getRepository(Billet::class)
         ->findAll();
 
+        $comments = $this->getDoctrine()
+        ->getRepository(Comment::class)
+        ->findAll();
+        $nbr_comments = 0;
+
         $billets = $this->get('knp_paginator')->paginate(
         $listeBillets,
-        $request->query->get('page', 1), 3);
+        $request->query->get('page', 1), 6);
 
         return $this->render('billet/show.html.twig', [
             'billets' => $billets,
+            'comments' => $comments,
+            'nbr_comments' => $nbr_comments,
         ]);
 	}
 
