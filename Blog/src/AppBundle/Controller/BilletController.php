@@ -130,20 +130,6 @@ class BilletController extends Controller
 
 		$this->addFlash('success', 'Billet supprimé !');
 
-        return $this->redirectToRoute('/billet');
+        return $this->redirectToRoute('billet_show');
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
