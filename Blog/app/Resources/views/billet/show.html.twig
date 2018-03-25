@@ -7,7 +7,11 @@
                     {% for billet in billets %}
                      <ul class="billets">
                         <li><h4>{{ billet.title }}</h4></li>
-                        <li>Écrit par {{ billet.user_id }}</li>
+                        {% for user in users %}
+                            {% if user.id == billet.user_id %}
+                                <li>Écrit par {{ user.username }}</li> 
+                            {% endif %}
+                        {% endfor %}
                         <li>Créé le {{ billet.created | date }}</li>
                         <li>{{ froala_display( billet.content ) }}</li>
                         <li>Tags : {{ billet.tags }}</li>

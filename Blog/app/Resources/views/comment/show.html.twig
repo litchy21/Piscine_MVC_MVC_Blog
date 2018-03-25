@@ -5,7 +5,7 @@
             <div class="col-sm-12">
                 <h1>{{ billet.title }}</h1>
                      <ul class="billets">
-                        <li>Écrit par {{ billet.user_id }}</li>
+                        <li>Écrit par {{ user.username }}</li>
                         <li>Créé le {{ billet.created | date }}</li>
                         <li>{{ froala_display( billet.content ) }}</li>
                         <li>Tags : {{ billet.tags }}</li>
@@ -20,7 +20,11 @@
                     {{ form_end(form) }}
                     {% for comment in comments %}
                      <ul class="billets">
-                        <li>Écrit par {{ comment.user_id }}</li>
+                        {% for user in users %}
+                            {% if user.id == comment.user_id %}
+                                <li>Écrit par {{ user.username }}</li> 
+                            {% endif %}
+                        {% endfor %}
                         <li>Créé le {{ comment.created | date }}</li>
                         <li>{{ comment.comment }}</li>
                     </ul>

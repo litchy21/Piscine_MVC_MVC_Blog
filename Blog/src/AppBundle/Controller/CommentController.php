@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Billet;
+use AppBundle\Entity\User;
 use AppBundle\Form\CommentType;
 
 class CommentController extends Controller
@@ -26,6 +27,10 @@ class CommentController extends Controller
         $form = $this->createForm('AppBundle\Form\CommentType');
         $form->handleRequest($request);
 
+        $users = $this->getDoctrine()
+        ->getRepository(User::class)
+        ->findAll();
+
         $comment = $form->getData();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $user_id = $user->getId();
@@ -41,6 +46,12 @@ class CommentController extends Controller
             $this->addFlash('success', 'Commentaire envoyé !');
         }
 
+        $id_userBillet = $billet->getUser_id();
+
+        $user = $this->getDoctrine()
+        ->getRepository(User::class)
+        ->find($id_userBillet);
+
         $comments = $this->getDoctrine()
         ->getRepository(Comment::class)
         ->findBy(array('billet_id' => $id), array('id' => 'DESC'));
@@ -49,6 +60,8 @@ class CommentController extends Controller
             'billet' => $billet,
             'comments' => $comments,
             'form' => $form->createView(),
+            'user' => $user,
+            'users' => $users,
         ]);
     }
 }

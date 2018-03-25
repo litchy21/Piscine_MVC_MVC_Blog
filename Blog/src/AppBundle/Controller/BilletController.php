@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Billet;
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\User;
 use AppBundle\Form\BilletType;
 
 class BilletController extends Controller
@@ -51,6 +52,10 @@ class BilletController extends Controller
         ->getRepository(Billet::class)
         ->findBy(array(), array('id' => 'DESC'));
 
+        $users = $this->getDoctrine()
+        ->getRepository(User::class)
+        ->findAll();
+
         $comments = $this->getDoctrine()
         ->getRepository(Comment::class)
         ->findAll();
@@ -64,6 +69,7 @@ class BilletController extends Controller
             'billets' => $billets,
             'comments' => $comments,
             'nbr_comments' => $nbr_comments,
+            'users' => $users,
         ]);
 	}
 
